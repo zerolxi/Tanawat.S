@@ -242,8 +242,9 @@
 
     .portfolio-item img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
+      object-fit: cover;
       transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
       filter: grayscale(15%);
     }
@@ -710,8 +711,10 @@
 
       /* Hero */
       #home {
-        padding: 0 1.5rem 3.5rem;
-        height: 100svh;
+        padding: 6rem 1.5rem 3rem;
+        height: auto;
+        min-height: 100svh;
+        justify-content: center;
       }
       .hero-eyebrow { font-size: 0.6rem; margin-bottom: 1rem; }
       .hero-number { display: none; }
@@ -1408,8 +1411,9 @@
     function buildMasonry() {
       const grid = document.querySelector('.portfolio-grid');
       const items = Array.from(grid.querySelectorAll('.portfolio-item'));
-      const gap = 8;
-      const cols = window.innerWidth <= 768 ? 2 : 3;
+      const isMobile = window.innerWidth <= 768;
+      const gap = isMobile ? 6 : 8;
+      const cols = isMobile ? 2 : 3;
       const gridW = grid.offsetWidth;
       const colW = (gridW - gap * (cols - 1)) / cols;
       const colHeights = Array(cols).fill(0);
@@ -1418,11 +1422,22 @@
         const ratio = RATIOS[i] || 1;
         const itemH = colW / ratio;
 
+        // set aspect-ratio on img so lazy load doesn't collapse height
+        const img = item.querySelector('img');
+        if (img) {
+          const w = ratio >= 1 ? 1 : 4;
+          const h = ratio >= 1 ? 1 : 5;
+          img.setAttribute('width', w);
+          img.setAttribute('height', h);
+          img.style.aspectRatio = `${w}/${h}`;
+        }
+
         const col = colHeights.indexOf(Math.min(...colHeights));
         const x = col * (colW + gap);
         const y = colHeights[col];
 
         item.style.width = colW + 'px';
+        item.style.height = itemH + 'px';
         item.style.left = x + 'px';
         item.style.top = y + 'px';
         item.style.opacity = '1';
