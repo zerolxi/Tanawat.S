@@ -38,8 +38,9 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+      top: 0; left: 0;
+      margin: -5px 0 0 -5px;
+      transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, margin 0.3s ease;
     }
     .cursor-ring {
       position: fixed;
@@ -49,11 +50,11 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+      top: 0; left: 0;
+      margin: -20px 0 0 -20px;
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
     }
     body:hover .cursor { opacity: 1; }
-    a:hover ~ .cursor, button:hover ~ .cursor { width: 6px; height: 6px; }
 
     /* Nav */
     nav {
@@ -1089,7 +1090,7 @@
     <span>Graphic Designer — Bangkok, TH</span>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // ── PROJECT DATA ──
     // เพิ่มรูปและวิดีโอ YouTube ID ในแต่ละ project ได้เลยครับ
     const PROJECTS = [
@@ -1351,6 +1352,14 @@
       el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.opacity = '0.5'; });
       el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.opacity = '1'; });
     });
+    // Re-bind cursor for dynamically added elements
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a, .portfolio-item, .proj-more-item, button')) {
+        ring.style.width = '60px'; ring.style.height = '60px'; ring.style.opacity = '0.5';
+      } else {
+        ring.style.width = '40px'; ring.style.height = '40px'; ring.style.opacity = '1';
+      }
+    });
 
     // ── SCROLL REVEAL ──
     const reveals = document.querySelectorAll('.reveal');
@@ -1367,5 +1376,15 @@
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
         nav.style.background = 'rgba(245,245,240,0.95)';
+      nav.style.background = 'rgba(245,245,240,0.95)';
         nav.style.backdropFilter = 'blur(10px)';
-     
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+      }
+    });
+
+  </script>
+
+</body>
+</html>
