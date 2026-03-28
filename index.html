@@ -692,12 +692,16 @@
     /* Reveal on scroll */
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+    /* Fallback: show if JS doesn't run */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
     }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
@@ -814,7 +818,9 @@
       nav { padding: 1rem 1.2rem; }
       .nav-links { gap: 1rem; }
     }
+      .reveal { opacity: 1 !important; transform: none !important; }
   </style>
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
@@ -1348,6 +1354,9 @@
 
     // ── SCROLL REVEAL ──
     const reveals = document.querySelectorAll('.reveal');
+    // Add visible immediately for all items already in/near viewport
+    reveals.forEach(el => el.classList.add('visible'));
+    // Also observe for items below fold
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0 });
