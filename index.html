@@ -877,7 +877,7 @@
         <img src="https://raw.githubusercontent.com/zerolxi/Tanawat.S/main/images/08-super-coffee/super-coffee-01.jpg" alt="Super Coffee" loading="lazy" />
         <div class="portfolio-overlay">
           <h3>Super Coffee</h3>
-          <span>Social Media · Product Content</span>
+          <span>Social Media · Motion Graphics</span>
         </div>
       </div>
 
@@ -1086,12 +1086,12 @@
         brief: 'Social media content for Muse, a real-fruit ice cream brand. Created flavor-driven visuals and seasonal lifestyle posts — pairing each flavor with the right season to inspire cravings at the perfect moment. Extended into motion graphics to bring the brand\'s playful, fresh character to life on social media.',
         cover: `${BASE}/07-muse/muse-01.jpg`,
         images: Array.from({length: 16}, (_, i) => `${BASE}/07-muse/muse-${String(i+1).padStart(2,'0')}.jpg`),
-        youtubeIds: ['Z6VjFy-y1s4', '2ZlFGuLPwwg', 'VVuMOr10f_8', 'T4mloB-NW48', 'L48KlahQTzo', 'odk6Krc1RGc', 'KAVcaxwbgyU'],
+        youtubeIds: ['Z6VjFy-y1s4', '2ZlFGuLPwwg', 'VVuMOr10f_8', 'T4mloB-NW48', 'L48KlahQTzo', 'odk6Krc1RGc', 'KAVcaxwbgyU', 'zX1d8LaQM8c', 'CrXUrt-aJ1Q', 'kt3UEOmhxfM', 'dY9ZKdGAsnU', 'khHKX_xuooc', 'nn3V8ZZtnfU', 'k0M6k6YaKN4'],
         youtubeId: 'Z6VjFy-y1s4'
       },
       {
         id: 'super-coffee', num: '08', title: 'Super Coffee',
-        tags: ['Social Media', 'Product Content', 'Digital'],
+        tags: ['Social Media', 'Motion Graphics', 'Product Content'],
         brief: 'Social media content for Super Coffee in its early days, targeting blue-collar workers who need a reliable energy boost. Created flavor-focused visuals across the ready-to-drink can and 3-in-1 sachet lines — building brand awareness from the ground up for a new market entry.',
         cover: `${BASE}/08-super-coffee/super-coffee-01.jpg`,
         images: [
@@ -1127,7 +1127,8 @@
           `${BASE}/08-super-coffee/super-coffee-30.png`,
           `${BASE}/08-super-coffee/super-coffee-31.jpg`,
         ],
-        youtubeId: ''
+        youtubeIds: ['S-QYfLaJCO0', 'TF2o5aTxMOM', 'BpUBXleuGQs'],
+        youtubeId: 'S-QYfLaJCO0'
       },
       {
         id: 'kamyn', num: '09', title: 'KAMYN',
@@ -1259,7 +1260,7 @@
       {
         id: 'motion', num: '14', title: 'Motion',
         tags: ['Motion Graphics', 'Digital', '2025'],
-        brief: 'Motion graphics reel. [อัปเดต brief ที่นี่]',
+        brief: 'Motion graphics reel showcasing animation and video content work.',
         cover: `${BASE}/01-samsung/samsung-01.jpg`,
         images: [],
         youtubeId: ''
@@ -1289,19 +1290,16 @@
 
       // Video
       const videoEl = document.getElementById('proj-video');
+      const videoSection = document.querySelector('.proj-video-section');
       const allIds = p.youtubeIds || (p.youtubeId ? [p.youtubeId] : []);
       if (allIds.length > 0) {
+        videoSection.style.display = '';
         videoEl.innerHTML = allIds.map(vid =>
           `<iframe src="https://www.youtube.com/embed/${vid}" allowfullscreen></iframe>`
         ).join('');
       } else {
-        videoEl.innerHTML = `<div class="proj-video-placeholder">
-          <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="22" stroke="white" stroke-width="1"/>
-            <polygon points="19,14 37,24 19,34" fill="white" opacity="0.4"/>
-          </svg>
-          <p>ยังไม่มีวิดีโอสำหรับ project นี้</p>
-        </div>`;
+        videoSection.style.display = 'none';
+        videoEl.innerHTML = '';
       }
 
       // More projects (exclude current)
