@@ -959,7 +959,7 @@
         Let's<br/>
         <span>work together.</span>
       </div>
-      <a href="/cdn-cgi/l/email-protection#2e5a4f404f594f5a1e1e6e415b5a42414145004d4143" class="contact-email"><span class="__cf_email__" data-cfemail="1c687d727d6b7d682c2c5c73696870737377327f7371">[email&#160;protected]</span></a>
+      <a href="mailto:tanawat00@outlook.com" class="contact-email">tanawat00@outlook.com</a>
       <div class="contact-links">
         <a href="https://instagram.com/zerol_xi" target="_blank" class="contact-link">Instagram</a>
         <a href="tel:0959344239" class="contact-link">095-934-4239</a>
@@ -1026,7 +1026,7 @@
     <span>Graphic Designer — Bangkok, TH</span>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // ── PROJECT DATA ──
     // เพิ่มรูปและวิดีโอ YouTube ID ในแต่ละ project ได้เลยครับ
     const BASE = 'https://raw.githubusercontent.com/zerolxi/Tanawat.S/main/images';
@@ -1440,4 +1440,17 @@
         item.style.top = y + 'px';
         item.style.opacity = '1';
 
-        colHeights[col] = 
+        colHeights[col] = y + itemH + gap;
+      });
+
+      grid.style.height = Math.max(...colHeights) + 'px';
+    }
+
+    window.addEventListener('load', buildMasonry);
+    window.addEventListener('resize', buildMasonry);
+    buildMasonry();
+
+  </script>
+
+</body>
+</html>
