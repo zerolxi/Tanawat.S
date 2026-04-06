@@ -124,23 +124,56 @@ function renderVideoSection(brand) {
     grid.appendChild(item);
   });
 
-  // ── YouTube iframes ──
+  // ── YouTube facade (thumbnail → click → embed) ──
   ytIds.forEach(id => {
     const item = document.createElement('div');
-    item.className = 'video-item is-yt-embed';
+    item.className = 'video-item is-yt-facade';
 
-    const wrap = document.createElement('div');
-    wrap.className = 'video-iframe-wrap';
+    const facade = document.createElement('div');
+    facade.className = 'yt-facade';
+    facade.setAttribute('role', 'button');
+    facade.setAttribute('tabindex', '0');
+    facade.setAttribute('aria-label', 'Play YouTube video');
 
-    const iframe = document.createElement('iframe');
-    iframe.src   = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
-    iframe.title = `${brand.name} — video`;
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('loading', 'lazy');
+    const thumb = document.createElement('img');
+    thumb.src     = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+    thumb.alt     = `${brand.name} — YouTube video`;
+    thumb.loading = 'lazy';
+    thumb.onerror = () => { thumb.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`; };
 
-    wrap.appendChild(iframe);
-    item.appendChild(wrap);
+    const overlay = document.createElement('div');
+    overlay.className = 'yt-facade-overlay';
+    overlay.innerHTML = `
+      <div class="yt-facade-btn">
+        <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M66.5 7.5s-.8-5.2-3.1-7.5C60.2-2.8 56.6-2.8 55 -3c-9.3-.7-23.3-.7-23.3-.7h0S17.7-3.7 8.4-3c-1.6.1-5.2.1-8.4 3.1C-2.3 2.3-3 7.5-3 7.5S-3.8 13.7-3.8 20v5.9c0 6.3.8 12.5.8 12.5s.8 5.2 3.1 7.5C3.3 48.8 7.7 48.6 9.6 49c6.2.6 26.4.8 26.4.8s14-.1 23.3-.8c1.6-.1 5.2-.1 8.4-3.1 2.3-2.3 3.1-7.5 3.1-7.5S72 31.9 72 25.9V20c0-6.3-.5-12.5-.5-12.5z" fill="#f00"/>
+          <path d="M27 34V14l20 10-20 10z" fill="#fff"/>
+        </svg>
+      </div>`;
+
+    facade.appendChild(thumb);
+    facade.appendChild(overlay);
+
+    // click → replace facade with real iframe (autoplay)
+    const activate = () => {
+      const wrap = document.createElement('div');
+      wrap.className = 'video-iframe-wrap';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = `${brand.name} — video`;
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+
+      wrap.appendChild(iframe);
+      item.innerHTML = '';
+      item.appendChild(wrap);
+    };
+
+    facade.addEventListener('click', activate);
+    facade.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+
+    item.appendChild(facade);
     grid.appendChild(item);
   });
 }

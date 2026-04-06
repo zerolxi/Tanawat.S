@@ -937,15 +937,48 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: #000;
 }
 
-/* YouTube iframe item */
-.video-item.is-yt-embed .video-iframe-wrap {
+/* YouTube facade — thumbnail + play button */
+.yt-facade {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
+  cursor: pointer;
+  display: block;
+  line-height: 0;
+}
+.yt-facade img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.2s ease;
+}
+.yt-facade:hover img { filter: brightness(0.75); }
+
+.yt-facade-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.yt-facade-btn {
+  width: 68px; height: 48px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
+}
+.yt-facade:hover .yt-facade-btn { transform: scale(1.1); opacity: 1; }
+.yt-facade-btn svg { width: 100%; height: 100%; }
+
+/* YouTube iframe (after click) */
+.video-iframe-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
 }
-
-.video-item.is-yt-embed .video-iframe-wrap iframe {
+.video-iframe-wrap iframe {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
