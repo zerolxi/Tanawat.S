@@ -133,7 +133,7 @@ function renderVideoSection(brand) {
     wrap.className = 'video-iframe-wrap';
 
     const iframe = document.createElement('iframe');
-    iframe.src   = `https://www.youtube.com/embed/${id}`;
+    iframe.src   = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
     iframe.title = `${brand.name} — video`;
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', '');
