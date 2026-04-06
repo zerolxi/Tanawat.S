@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand — Portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;700;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a class="nav-logo" href="index.html">
+      <img src="images/logo.png" alt="TS">
+    </a>
+
+    <div style="display:flex;align-items:center;gap:40px;">
+      <span id="brand-counter" class="brand-counter"></span>
+      <button id="nav-back" class="nav-back" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        All Work
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       BRAND HERO — Split layout
+  ══════════════════════════════════════════ -->
+  <section id="brand-hero" aria-label="Brand overview">
+
+    <!-- Left: cover image -->
+    <div class="brand-hero-cover">
+      <img id="brand-cover-img" src="" alt="">
+    </div>
+
+    <!-- Right: brand info -->
+    <div class="brand-hero-info">
+      <!-- atmospheric blobs on info side -->
+      <div class="glow-blob glow-blob-1" aria-hidden="true"></div>
+      <div class="glow-blob glow-blob-2" aria-hidden="true"></div>
+
+      <div class="brand-hero-info-inner">
+        <p class="brand-hero-eyebrow" id="brand-eyebrow"></p>
+        <h1 class="brand-hero-title" id="brand-title"></h1>
+        <p class="brand-hero-desc" id="brand-desc"></p>
+        <div class="brand-hero-meta" id="brand-meta">
+          <div id="brand-tags" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+          <span class="brand-hero-year" id="brand-year"></span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GALLERY
+  ══════════════════════════════════════════ -->
+  <section id="gallery" aria-label="Project gallery">
+    <p class="gallery-count" id="gallery-count"></p>
+
+    <!-- loading indicator — hidden after masonry runs -->
+    <div id="gallery-loader" class="gallery-loader" aria-hidden="true">
+      <div class="gallery-loader-dot"></div>
+      <div class="gallery-loader-dot"></div>
+      <div class="gallery-loader-dot"></div>
+    </div>
+
+    <!-- items injected by JS -->
+    <div class="gallery-grid" id="gallery-grid" role="list"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CASE STUDY
+  ══════════════════════════════════════════ -->
+  <section id="case-study" aria-label="Project details">
+    <div class="case-meta">
+      <div class="case-block">
+        <p class="case-label">Scope</p>
+        <div id="case-scope" class="case-scope-list"></div>
+      </div>
+      <div class="case-block">
+        <p class="case-label">Output</p>
+        <p class="case-value" id="case-output"></p>
+      </div>
+      <div class="case-block">
+        <p class="case-label">Year</p>
+        <p class="case-value" id="case-year"></p>
+      </div>
+    </div>
+    <div class="case-brief">
+      <p class="case-label">Overview</p>
+      <p id="case-brief-text"></p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       LIGHTBOX
+  ══════════════════════════════════════════ -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    </div>
+
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+
+    <div class="lightbox-counter" id="lightbox-counter" aria-live="polite"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER (minimal)
+  ══════════════════════════════════════════ -->
+  <footer id="footer" role="contentinfo">
+    <span class="footer-logo nav-logo"></span>
+    <ul class="footer-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">&copy; <span id="footer-year"></span> All rights reserved.</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script src="js/data.js"></script>
+  <script src="js/brand.js"></script>
+  <script src="js/interactive.js"></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
