@@ -109,18 +109,44 @@ function renderVideoSection(brand) {
 
   if (countEl) countEl.textContent = `${total} video${total > 1 ? 's' : ''}`;
 
-  // ── mp4 videos ──
+  // ── mp4 videos (facade — click to load) ──
   mp4Files.forEach(file => {
     const item = document.createElement('div');
-    item.className = 'video-item';
+    item.className = 'video-item is-mp4-facade';
 
-    const video = document.createElement('video');
-    video.src        = `${BASE}/${brand.folder}/${file.name}`;
-    video.controls   = true;
-    video.preload    = 'metadata';
-    video.playsInline = true;
+    const facade = document.createElement('div');
+    facade.className  = 'mp4-facade';
+    facade.setAttribute('role', 'button');
+    facade.setAttribute('tabindex', '0');
+    facade.setAttribute('aria-label', 'Play video');
 
-    item.appendChild(video);
+    const label = document.createElement('span');
+    label.className   = 'mp4-facade-label';
+    label.textContent = file.name.replace(`${brand.id}-`, '').replace('.mp4', '').replace(/-/g, ' ').toUpperCase();
+
+    facade.innerHTML  = `
+      <div class="mp4-play-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>`;
+    facade.appendChild(label);
+
+    const activate = () => {
+      const video = document.createElement('video');
+      video.src        = `${BASE}/${brand.folder}/${file.name}`;
+      video.controls   = true;
+      video.autoplay   = true;
+      video.playsInline = true;
+      video.style.cssText = 'width:100%;aspect-ratio:16/9;display:block;background:#000;object-fit:contain;';
+      item.innerHTML = '';
+      item.appendChild(video);
+    };
+
+    facade.addEventListener('click', activate);
+    facade.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+
+    item.appendChild(facade);
     grid.appendChild(item);
   });
 

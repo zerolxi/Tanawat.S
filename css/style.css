@@ -937,6 +937,44 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: #000;
 }
 
+/* mp4 facade — dark placeholder + play button */
+.video-item.is-mp4-facade { background: #0a0a0f; }
+
+.mp4-facade {
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0d0d12 0%, #141420 100%);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.mp4-facade:hover { background: linear-gradient(135deg, #111118 0%, #1a1a28 100%); }
+
+.mp4-play-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.mp4-facade:hover .mp4-play-btn {
+  border-color: rgba(255,255,255,0.6);
+  transform: scale(1.08);
+}
+.mp4-play-btn svg { width: 22px; height: 22px; opacity: 0.75; margin-left: 3px; }
+.mp4-facade:hover .mp4-play-btn svg { opacity: 1; }
+
+.mp4-facade-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.35);
+  font-family: 'Archivo', sans-serif;
+}
+
 /* YouTube facade — thumbnail + play button */
 .yt-facade {
   position: relative;
