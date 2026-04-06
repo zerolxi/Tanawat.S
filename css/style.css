@@ -883,61 +883,74 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .gallery-item:hover img,
 .gallery-item:hover .gallery-gif { transform: scale(1.04); }
 
-/* video items — no lightbox, play inline */
-.gallery-item.is-video {
-  cursor: default;
-  aspect-ratio: 16/9;
-}
-.gallery-item.is-video:hover { border-color: var(--border-h); }
-.gallery-item video {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .gallery-item.is-gif { cursor: pointer; }
 
-/* play icon overlay on video */
-.video-play-hint {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(5,5,8,0.3);
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-.gallery-item.is-video:hover .video-play-hint { opacity: 0; }
-
-/* ─ YouTube card in gallery ─ */
-.gallery-item.is-youtube {
-  position: absolute;
-  cursor: pointer;
-}
-.gallery-item.is-youtube img {
-  width: 100%; height: auto; display: block;
-  transition: transform 0.4s ease;
-}
-.gallery-item.is-youtube:hover img { transform: scale(1.04); }
-
-.yt-overlay {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 10px;
-  background: rgba(5,5,8,0.35);
-  transition: background 0.2s ease;
-}
-.gallery-item.is-youtube:hover .yt-overlay { background: rgba(5,5,8,0.55); }
-
-.yt-play {
-  width: 56px; height: 56px;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+/* ============================================================
+   VIDEO SECTION
+   ============================================================ */
+#video-section {
+  padding: 0 40px 64px;
 }
 
-.yt-label {
+#video-section .section-label {
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
+  color: var(--muted);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#video-section .section-label::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.video-count {
+  font-size: 0.8rem; color: var(--muted);
+  margin-bottom: 20px; letter-spacing: 0.05em;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* mp4 video item */
+.video-item {
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--border);
+}
+
+.video-item video {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: contain;
+  background: #000;
+}
+
+/* YouTube iframe item */
+.video-item.is-yt-embed .video-iframe-wrap {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-item.is-yt-embed .video-iframe-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
 }
 
 /* ─ Gallery counter ─ */
@@ -1278,6 +1291,8 @@ body.cursor-hover .cursor-dot { opacity: 0; }
   #brand-hero { grid-template-columns: 1fr; height: auto; margin-top: 0; padding-top: 80px; max-height: none; }
   .brand-hero-info { border-left: none; border-top: none; }
   #gallery { padding: 0 24px 80px; }
+  #video-section { padding: 0 24px 48px; }
+  .video-grid { grid-template-columns: 1fr; }
 
   /* About */
   .about-quote { font-size: clamp(1.8rem, 6vw, 2.8rem); }

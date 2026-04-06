@@ -51,12 +51,9 @@ function renderBrandHero(brand) {
   // page title
   document.title = `${brand.name} — ${CONFIG.owner.name}`;
 
-  // gallery count
-  const imgCount = brand.files.filter(f => f.type === 'image').length;
-  const vidCount = brand.files.filter(f => f.type === 'video').length;
-  let countText  = `${brand.files.length} assets`;
-  if (vidCount > 0) countText = `${imgCount} images · ${vidCount} videos`;
-  document.getElementById('gallery-count').textContent = countText;
+  // gallery count — images only (videos go to video section)
+  const imgCount = brand.files.filter(f => f.type !== 'video').length;
+  document.getElementById('gallery-count').textContent = `${imgCount} image${imgCount !== 1 ? 's' : ''}`;
 }
 
 /* ─── Render Case Study ───────────────────────────────────── */
@@ -75,11 +72,13 @@ function renderCaseStudy(brand) {
   // Output count
   const imgCount = brand.files.filter(f => f.type !== 'video').length;
   const vidCount = brand.files.filter(f => f.type === 'video').length;
+  const ytCount  = (brand.youtubeIds || []).length;
   const outputEl = document.getElementById('case-output');
   if (outputEl) {
-    outputEl.textContent = vidCount > 0
-      ? `${imgCount} visuals · ${vidCount} videos`
-      : `${brand.files.length} pieces`;
+    const parts = [];
+    if (imgCount > 0) parts.push(`${imgCount} visuals`);
+    if (vidCount + ytCount > 0) parts.push(`${vidCount + ytCount} videos`);
+    outputEl.textContent = parts.join(' · ') || `${brand.files.length} pieces`;
   }
 
   // Year
@@ -91,36 +90,57 @@ function renderCaseStudy(brand) {
   if (briefEl) briefEl.textContent = brand.description || '';
 }
 
-/* ─── Render YouTube cards into gallery grid ──────────────── */
-function renderYoutube(brand) {
-  if (!brand.youtubeIds || brand.youtubeIds.length === 0) return;
+/* ─── Render Video Section (mp4 + YouTube embeds) ─────────── */
+function renderVideoSection(brand) {
+  const section  = document.getElementById('video-section');
+  const grid     = document.getElementById('video-grid');
+  const countEl  = document.getElementById('video-count');
+  if (!section || !grid) return;
 
-  const grid = document.getElementById('gallery-grid');
-  if (!grid) return;
+  const mp4Files = brand.files.filter(f => f.type === 'video');
+  const ytIds    = brand.youtubeIds || [];
+  const total    = mp4Files.length + ytIds.length;
 
-  brand.youtubeIds.forEach(id => {
+  // hide section if no videos at all
+  if (total === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  if (countEl) countEl.textContent = `${total} video${total > 1 ? 's' : ''}`;
+
+  // ── mp4 videos ──
+  mp4Files.forEach(file => {
     const item = document.createElement('div');
-    item.className = 'gallery-item is-youtube';
+    item.className = 'video-item';
 
-    const thumb = document.createElement('img');
-    thumb.src     = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
-    thumb.alt     = `${brand.name} — YouTube`;
-    thumb.loading = 'lazy';
+    const video = document.createElement('video');
+    video.src        = `${BASE}/${brand.folder}/${file.name}`;
+    video.controls   = true;
+    video.preload    = 'metadata';
+    video.playsInline = true;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'yt-overlay';
-    overlay.innerHTML = `
-      <svg class="yt-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.55)"/>
-        <polygon points="10,8 17,12 10,16" fill="#fff"/>
-      </svg>
-      <span class="yt-label">Watch on YouTube</span>`;
+    item.appendChild(video);
+    grid.appendChild(item);
+  });
 
-    item.appendChild(thumb);
-    item.appendChild(overlay);
-    item.addEventListener('click', () => window.open(`https://youtu.be/${id}`, '_blank', 'noopener'));
-    item.style.cursor = 'pointer';
+  // ── YouTube iframes ──
+  ytIds.forEach(id => {
+    const item = document.createElement('div');
+    item.className = 'video-item is-yt-embed';
 
+    const wrap = document.createElement('div');
+    wrap.className = 'video-iframe-wrap';
+
+    const iframe = document.createElement('iframe');
+    iframe.src   = `https://www.youtube.com/embed/${id}`;
+    iframe.title = `${brand.name} — video`;
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('loading', 'lazy');
+
+    wrap.appendChild(iframe);
+    item.appendChild(wrap);
     grid.appendChild(item);
   });
 }
@@ -133,53 +153,26 @@ function renderGallery(brand) {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
 
-  lightboxImages = brand.files.filter(f => f.type === 'image');
+  // gallery shows images + gifs only; videos go to #video-section
+  const imageFiles = brand.files.filter(f => f.type !== 'video');
+  lightboxImages   = brand.files.filter(f => f.type === 'image');
 
-  // images/gifs ก่อน, videos (mp4) ล่างสุด
-  const sortedFiles = [
-    ...brand.files.filter(f => f.type !== 'video'),
-    ...brand.files.filter(f => f.type === 'video'),
-  ];
-
-  sortedFiles.forEach((file, i) => {
+  imageFiles.forEach((file, i) => {
     const item = document.createElement('div');
-    item.className = `gallery-item is-${file.type}`;
+    item.className = 'gallery-item';
 
-    if (file.type === 'video') {
-      // ── Video item ──
-      const video = document.createElement('video');
-      video.src = `${BASE}/${brand.folder}/${file.name}`;
-      video.controls = true;
-      video.preload = 'metadata';
-      video.playsInline = true;
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'gif') item.classList.add('is-gif');
 
-      // play hint icon
-      const hint = document.createElement('div');
-      hint.className = 'video-play-hint';
-      hint.innerHTML = `<svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)">
-        <path d="M8 5v14l11-7z"/>
-      </svg>`;
+    const img = document.createElement('img');
+    img.src     = `${BASE}/${brand.folder}/${file.name}`;
+    img.alt     = `${brand.name} — ${file.name}`;
+    img.loading = 'lazy';
+    item.appendChild(img);
 
-      item.appendChild(video);
-      item.appendChild(hint);
-
-      // hide hint when video plays
-      video.addEventListener('play', () => { hint.style.display = 'none'; });
-      video.addEventListener('pause', () => { hint.style.display = 'flex'; });
-
-    } else {
-      // ── Image / GIF item ──
-      const ext = file.name.split('.').pop().toLowerCase();
-      if (ext === 'gif') item.classList.add('is-gif');
-
-      const img = document.createElement('img');
-      img.src = `${BASE}/${brand.folder}/${file.name}`;
-      img.alt = `${brand.name} — ${file.name}`;
-      img.loading = 'lazy';
-      item.appendChild(img);
-
-      // lightbox click
-      const lbIndex = lightboxImages.findIndex(f => f.name === file.name);
+    // lightbox click (images only, not gifs)
+    const lbIndex = lightboxImages.findIndex(f => f.name === file.name);
+    if (lbIndex !== -1) {
       item.addEventListener('click', () => openLightbox(lbIndex));
       item.setAttribute('tabindex', '0');
       item.setAttribute('role', 'button');
@@ -346,8 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderBrandHero(brand);
   renderCaseStudy(brand);
-  renderYoutube(brand);
   renderGallery(brand);
+  renderVideoSection(brand);
   initNav();
   initNavBack();
   initLightbox();
