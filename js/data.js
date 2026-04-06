@@ -76,8 +76,7 @@ const BRANDS = [
     youtubeIds: ['9kOEvi64FRw', '5JGEXnMi5YA'],
     files: [
       img('art-dna',1), img('art-dna',2), img('art-dna',3), img('art-dna',4),
-      img('art-dna',5), img('art-dna',6), img('art-dna',7), img('art-dna',8),
-      vid('art-dna',9), vid('art-dna',10)
+      img('art-dna',5), img('art-dna',6), img('art-dna',7), img('art-dna',8)
     ]
   },
 
@@ -90,8 +89,7 @@ const BRANDS = [
     description: 'Product promotion for Energea, a charging accessories brand. Created lifestyle-driven visuals that integrate the products into everyday moments — keeping the aesthetic clean, minimal, and aspirational.',
     youtubeIds: ['TyR8JMLm2h4'],
     files: [
-      ...Array.from({length:19}, (_,i) => img('energea', i+1)),
-      vid('energea', 20)
+      ...Array.from({length:19}, (_,i) => img('energea', i+1))
     ]
   },
 
@@ -130,8 +128,7 @@ const BRANDS = [
     description: "Social media content for Muse, a real-fruit ice cream brand. Created flavor-driven visuals and seasonal lifestyle posts — pairing each flavor with the right season to inspire cravings at the perfect moment. Extended into motion graphics to bring the brand's playful, fresh character to life on social media.",
     youtubeIds: ['Z6VjFy-y1s4','2ZlFGuLPwwg','VVuMOr10f_8','T4mloB-NW48','L48KlahQTzo','odk6Krc1RGc','KAVcaxwbgyU','zX1d8LaQM8c','CrXUrt-aJ1Q','kt3UEOmhxfM','dY9ZKdGAsnU','khHKX_xuooc','nn3V8ZZtnfU','k0M6k6YaKN4'],
     files: [
-      ...Array.from({length:16}, (_,i) => img('muse', i+1)),
-      ...Array.from({length:14}, (_,i) => vid('muse', i+17))
+      ...Array.from({length:16}, (_,i) => img('muse', i+1))
     ]
   },
 
@@ -154,8 +151,7 @@ const BRANDS = [
       img('super-coffee',25,'gif'),
       img('super-coffee',26), img('super-coffee',27),
       img('super-coffee',28,'gif'),
-      img('super-coffee',29), img('super-coffee',30,'png'), img('super-coffee',31),
-      ...Array.from({length:10}, (_,i) => vid('super-coffee', i+32))
+      img('super-coffee',29), img('super-coffee',30,'png'), img('super-coffee',31)
     ]
   },
 
@@ -185,8 +181,7 @@ const BRANDS = [
       ...Array.from({length:17}, (_,i) => img('bsc-jeans', i+2)),
       img('bsc-jeans',19,'gif'),
       ...Array.from({length:25}, (_,i) => img('bsc-jeans', i+20)),
-      img('bsc-jeans',45,'gif'), img('bsc-jeans',46,'png'),
-      vid('bsc-jeans',47)
+      img('bsc-jeans',45,'gif'), img('bsc-jeans',46,'png')
     ]
   },
 
