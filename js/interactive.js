@@ -287,3 +287,47 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
+
+
+/* Brand case-study motion */
+(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const hero = document.querySelector('#brand-hero');
+  const cover = document.querySelector('.brand-hero-cover img');
+  if (hero && cover && window.matchMedia('(pointer: fine)').matches) {
+    hero.addEventListener('pointermove', ({ clientX, clientY }) => {
+      const box = hero.getBoundingClientRect();
+      const x = (clientX - box.left) / box.width - .5;
+      const y = (clientY - box.top) / box.height - .5;
+      cover.style.transform = 'scale(1.07) translate(' + (x * 10) + 'px,' + (y * 10) + 'px)';
+    }, { passive: true });
+    hero.addEventListener('pointerleave', () => { cover.style.transform = ''; });
+  }
+
+  const items = [...document.querySelectorAll('.gallery-item')];
+  const reveal = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting || target.dataset.revealed) return;
+      target.dataset.revealed = 'true';
+      target.animate(
+        [{ opacity: 0, transform: 'translateY(34px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
+        { duration: 650, delay: (items.indexOf(target) % 3) * 75, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' }
+      );
+      reveal.unobserve(target);
+    });
+  }, { threshold: .12 });
+  items.forEach((item) => reveal.observe(item));
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    items.forEach((item) => {
+      item.addEventListener('pointermove', (event) => {
+        const box = item.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width - .5;
+        const y = (event.clientY - box.top) / box.height - .5;
+        item.style.transform = 'perspective(900px) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 5) + 'deg) translateY(-5px)';
+      });
+      item.addEventListener('pointerleave', () => { item.style.transform = ''; });
+    });
+  }
+})();
