@@ -230,3 +230,22 @@ body::before {
   .brand-hero-info { min-height: auto; }
   .brand-hero-info-inner { padding: 46px 24px 40px; }
 }
+
+/* Mobile case-study reading order */
+@media (max-width: 768px) {
+  .brand-hero-info-inner { padding: 38px 24px 30px; }
+  .brand-hero-eyebrow { margin-bottom: 14px; }
+  .brand-hero-title { margin-bottom: 8px; }
+  .brand-hero-desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    margin-top: 18px;
+    line-height: 1.65;
+  }
+  .brand-hero-meta { margin-top: 22px; padding-top: 18px; }
+  #gallery { padding-top: 40px; }
+  #gallery::before { margin-bottom: 14px; font-size: .65rem; }
+  #case-study { margin-top: 20px; padding-top: 34px; }
+}
