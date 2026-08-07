@@ -11,7 +11,7 @@ const CONFIG = {
     tagline:   'Always learning. Always making.',
     email:     'tanawat00@outlook.com',
     instagram: 'https://instagram.com/zerol_xi',
-    line:      'https://line.me/ti/p/~darkzero000',
+    line:      'https://line.me/ti/p/~darkzero000',Array.from({length:44}, (_,i) => img('samsung', i+1)).filter((_, i) => i !== 3)
     phone:     '095-934-4239',
   },
   about: {
