@@ -214,3 +214,13 @@ body::before {
 .gallery-item:after{content:'';position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.12),transparent 22%,transparent 78%,rgba(120,116,255,.12));opacity:0;pointer-events:none;transition:opacity .4s ease}
 .gallery-item:hover:after{opacity:1}
 @media(max-width:768px){#brand-hero{margin-top:86px}#gallery:after{display:none}.case-block{padding:14px 0;border-left:0;border-top:1px solid rgba(255,255,255,.12)}.case-block:first-child{border-top:0}}
+
+/* Mobile brand hero: keep the content, let the gallery lead */
+@media (max-width: 768px) {
+  #brand-hero { margin-top: 86px; }
+  .brand-hero-cover { display: none; }
+  .brand-hero-info { min-height: 64svh; border-top: 0; }
+  .brand-hero-info-inner { padding: 52px 24px 58px; }
+  .brand-hero-title { font-size: clamp(3.2rem, 16vw, 5rem); }
+  #case-study { margin-top: 24px; }
+}
