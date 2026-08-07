@@ -224,3 +224,9 @@ body::before {
   .brand-hero-title { font-size: clamp(3.2rem, 16vw, 5rem); }
   #case-study { margin-top: 24px; }
 }
+
+/* Mobile brand hero compact spacing */
+@media (max-width: 768px) {
+  .brand-hero-info { min-height: auto; }
+  .brand-hero-info-inner { padding: 46px 24px 40px; }
+}
