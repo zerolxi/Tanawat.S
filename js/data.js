@@ -49,7 +49,7 @@ const BRANDS = [
     description: 'A 4-year collaboration with Samsung Thailand, covering social media content, key visuals, banners, and print ads across the Galaxy A Series, Tab, Watch, Buds, and home appliance lines. Responsible for translating product launches into clear, on-brand visuals that perform across digital and print channels — building an extensive content library over the years.',
     youtubeIds: [],
     files: [
-      ...Array.from({length:44}, (_,i) => img('samsung', i+1))
+      ...Array.from({length:44}, (_,i) => img('samsung', i+1)).filter((_, i) => i !== 3)
     ]
   },
 
